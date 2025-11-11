@@ -1,26 +1,6 @@
 import { useEffect, useState } from "react";
 import { postsAPI } from "@/services/post/postAPI";
-
-interface Image {
-  id: string;
-  url: string;
-  originalName: string;
-  type: "POST" | "COMMENT" | "PROFILE";
-}
-
-interface ContentBlock {
-  id?: string;
-  type: "paragraph" | "image";
-  content?: string;
-}
-
-interface Post {
-  id: string;
-  title: string;
-  content: ContentBlock[];
-  createdAt: string;
-  images: Image[];
-}
+import type { Post } from "@/types/post";
 
 const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
