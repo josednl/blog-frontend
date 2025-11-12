@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { postsAPI } from "@/services/post/postAPI";
 import type { Post } from "@/types/post";
+import { CommentsSection } from "@/components/CommentsSection";
 
 const PostDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -85,6 +86,7 @@ const PostDetail = () => {
           return null;
         })}
       </article>
+      {post && <CommentsSection postId={post.id} />}
     </main>
   );
 };
