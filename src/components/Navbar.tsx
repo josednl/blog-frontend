@@ -1,34 +1,48 @@
-import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Moon, Sun } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Moon, Sun, UserCircle } from "lucide-react";
+import { useAuth } from "@/services/auth/authProvider";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const darkMode = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    document.documentElement.classList.toggle('dark', darkMode);
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const darkMode = savedTheme === "dark" || (!savedTheme && prefersDark);
+    document.documentElement.classList.toggle("dark", darkMode);
     setIsDarkMode(darkMode);
   }, []);
 
   const toggleDarkMode = () => {
     const newMode = !isDarkMode;
     setIsDarkMode(newMode);
-    document.documentElement.classList.toggle('dark', newMode);
-    localStorage.setItem('theme', newMode ? 'dark' : 'light');
+    document.documentElement.classList.toggle("dark", newMode);
+    localStorage.setItem("theme", newMode ? "dark" : "light");
   };
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   const linkClasses = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 text-sm font-medium transition-colors duration-200 ${
       isActive
-        ? 'text-indigo-600 dark:text-indigo-400'
-        : 'text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400'
+        ? "text-indigo-600 dark:text-indigo-400"
+        : "text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
     }`;
+
+  const handleProfileClick = () => navigate("/profile");
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login", { replace: true });
+    } catch (err) {
+      console.error("Error logging out:", err);
+    }
+  };
 
   return (
     <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm transition-colors duration-300">
@@ -42,9 +56,46 @@ const Navbar = () => {
           </NavLink>
 
           <div className="hidden md:flex items-center space-x-6">
-            <NavLink to="/" className={linkClasses}>Home</NavLink>
-            <NavLink to="/about" className={linkClasses}>About</NavLink>
-            <NavLink to="/login" className={linkClasses}>Login</NavLink>
+            <NavLink to="/" className={linkClasses}>
+              Home
+            </NavLink>
+            <NavLink to="/about" className={linkClasses}>
+              About
+            </NavLink>
+
+            {!user ? (
+              <NavLink to="/login" className={linkClasses}>
+                Login
+              </NavLink>
+            ) : (
+              <>
+                <button
+                  onClick={handleProfileClick}
+                  className="flex items-center space-x-2 group"
+                >
+                  {user.profilePicUrl ? (
+                    <img
+                      src={`${import.meta.env.VITE_API_URL}${user.profilePicUrl}`}
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 object-cover"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src =
+                          "https://via.placeholder.com/150?text=No+Photo";
+                      }}
+                    />
+                  ) : (
+                    <UserCircle className="w-7 h-7 text-gray-600 dark:text-gray-300 group-hover:text-indigo-500 transition" />
+                  )}
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="px-3 py-1 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400 transition"
+                >
+                  Log out
+                </button>
+              </>
+            )}
 
             <button
               onClick={toggleDarkMode}
@@ -69,7 +120,13 @@ const Navbar = () => {
               className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
               aria-label="Toggle Menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -80,11 +137,59 @@ const Navbar = () => {
           </div>
         </nav>
 
-        <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ${
+            isMobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
           <div className="mt-2 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 rounded-md shadow-sm py-2">
-            <NavLink to="/" className={linkClasses} onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-            <NavLink to="/about" className={linkClasses} onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
-            <NavLink to="/login" className={linkClasses} onClick={() => setIsMobileMenuOpen(false)}>Login</NavLink>
+            <NavLink
+              to="/"
+              className={linkClasses}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={linkClasses}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              About
+            </NavLink>
+
+            {!user ? (
+              <NavLink
+                to="/login"
+                className={linkClasses}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Login
+              </NavLink>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    handleProfileClick();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 w-full"
+                >
+                  <UserCircle className="w-5 h-5 mr-2" />
+                  Profile
+                </button>
+
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 w-full text-left"
+                >
+                  Log out
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

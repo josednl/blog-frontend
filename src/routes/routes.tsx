@@ -3,6 +3,7 @@ import App from '@/App';
 import ErrorPage from '@/pages/ErrorPage';
 import Home from '@/pages/Home';
 import PostDetail from '@/pages/PostDetail';
+import Login from '@/pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "posts/:id",
         element: <PostDetail />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
     ]
   }
