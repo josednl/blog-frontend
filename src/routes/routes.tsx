@@ -6,6 +6,7 @@ import PostDetail from '@/pages/PostDetail';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import { Profile } from '@/pages/Profile';
+import AboutPage from '@/pages/About';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "about",
+        element: <AboutPage />,
       },
     ]
   }
