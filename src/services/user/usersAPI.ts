@@ -1,0 +1,46 @@
+import apiClient from '@/services/api/apiClient';
+import { User } from '@/types/auth';
+
+export const usersAPI = {
+  async getAll() {
+    const response = await apiClient.get('/users');
+    return response.data;
+  },
+
+  async getById(id: string) {
+    const response = await apiClient.get(`/users/${id}`);
+    return response.data;
+  },
+
+  async create(data: User) {
+    try {
+      const response = await apiClient.post('/users', data);
+      return response.data;
+    } catch (error: any) {
+      throw error;
+    }
+  },
+
+  async uploadProfileImage (formData: FormData) {
+    formData.append('type', 'PROFILE');
+    const response = await apiClient.post('/images', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
+
+  async update(id: string, data: Partial<User>) {
+    const response = await apiClient.put(`/users/${id}`, data);
+    return response.data;
+  },
+
+  async deleteProfileImage(id: string) {
+    const response = await apiClient.delete(`/images/${id}`);
+    return response.data;
+  },
+
+  async delete(id: string) {
+    const response = await apiClient.delete(`/users/${id}`);
+    return response.data;
+  },
+};

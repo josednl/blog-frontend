@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "@/services/auth/authProvider"; // 👈 ajusta el path a donde tengas el provider
+import { useAuth } from "@/services/auth/authProvider";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       await login({ email, password });
-      navigate("/"); // redirige al home
+      navigate("/");
     } catch (err: any) {
       console.error("Login error:", err);
       setError("Invalid email or password");
