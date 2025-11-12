@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Outlet, useNavigation } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -13,6 +14,7 @@ function App() {
         <Suspense>
           <Outlet />
         </Suspense>
+        <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
       </main>
       <Footer />
     </div>

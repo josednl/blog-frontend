@@ -12,7 +12,7 @@ export const usersAPI = {
     return response.data;
   },
 
-  async create(data: User) {
+  async create(data: any) {
     try {
       const response = await apiClient.post('/users', data);
       return response.data;

@@ -1,7 +1,8 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { usersAPI } from "@/services/user/usersAPI";
-import { User } from "@/types/auth";
+import { showSuccessToast } from "@/utils/toasts/showSuccessToast";
+import { showErrorToast } from "@/utils/toasts/showErrorToast";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -14,9 +15,7 @@ const RegisterPage = () => {
     confirmPassword: "",
   });
 
-  const [profileImage, setProfileImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,38 +24,21 @@ const RegisterPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
-
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match");
-      setLoading(false);
-      return;
-    }
 
     try {
-      let profilePicUrl: string | undefined;
-
-      if (profileImage) {
-        const formData = new FormData();
-        formData.append("file", profileImage);
-        const imageResponse = await usersAPI.uploadProfileImage(formData);
-        profilePicUrl = imageResponse.url;
-      }
-
       const newUser: any = {
         name: form.name,
         username: form.username,
         email: form.email,
         password: form.password,
         confirmPassword: form.confirmPassword,
-        profilePicUrl,
       };
 
       await usersAPI.create(newUser);
-
+      showSuccessToast("User registered successfully");
       navigate("/login");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error registering user");
+      showErrorToast(err);
     } finally {
       setLoading(false);
     }
@@ -67,10 +49,6 @@ const RegisterPage = () => {
       <h1 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">
         Register
       </h1>
-
-      {error && (
-        <div className="mb-4 text-red-600 dark:text-red-400 font-medium">{error}</div>
-      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

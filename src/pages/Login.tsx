@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "@/services/auth/authProvider";
+import { showErrorToast } from "@/utils/toasts/showErrorToast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,8 +23,7 @@ const Login = () => {
       await login({ email, password });
       navigate("/");
     } catch (err: any) {
-      console.error("Login error:", err);
-      setError("Invalid email or password");
+      showErrorToast(err);
     }
   };
 
