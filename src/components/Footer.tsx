@@ -7,19 +7,19 @@ const Footer = () => {
         <div className="flex space-x-4">
           <a
             href="/"
-            className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+            className="hover:text-accent dark:hover:text-accent/40 transition"
           >
             Home
           </a>
           <a
             href="/about"
-            className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+            className="hover:text-accent dark:hover:text-accent/40 transition"
           >
             About
           </a>
           <a
             href="/login"
-            className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+            className="hover:text-accent dark:hover:text-accent/40 transition"
           >
             Login
           </a>

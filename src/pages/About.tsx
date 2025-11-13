@@ -17,7 +17,7 @@ const AboutPage = () => {
         </h1>
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center space-x-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+          className="flex items-center space-x-1 text-sm text-accent dark:text-accent/80 hover:underline"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back</span>
@@ -50,7 +50,7 @@ const AboutPage = () => {
 
       <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-4 text-sm text-gray-600 dark:text-gray-400">
         <p>
-          Made with ❤️ by the <span className="text-indigo-600 dark:text-indigo-400 font-medium">MyBlog</span> team.
+          Made with ❤️ by the <span className="text-accent dark:text-accent/80 font-medium">MyBlog</span> team.
         </p>
         <p className="mt-1">
           © {new Date().getFullYear()} MyBlog. All rights reserved.

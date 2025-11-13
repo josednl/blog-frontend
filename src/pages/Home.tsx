@@ -107,7 +107,7 @@ const Home = () => {
                 <div className="mt-4">
                   <a
                     href={`/posts/${post.id}`}
-                    className="inline-block text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium transition"
+                    className="inline-block text-accent dark:text-accent/80 hover:text-accent/80 dark:hover:text-accent/50 font-medium transition"
                   >
                     Read more →
                   </a>

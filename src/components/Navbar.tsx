@@ -2,35 +2,21 @@ import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Moon, Sun, UserCircle } from "lucide-react";
 import { useAuth } from "@/services/auth/authProvider";
+import { useTheme } from "@/hooks/useTheme";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const darkMode = savedTheme === "dark" || (!savedTheme && prefersDark);
-    document.documentElement.classList.toggle("dark", darkMode);
-    setIsDarkMode(darkMode);
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    document.documentElement.classList.toggle("dark", newMode);
-    localStorage.setItem("theme", newMode ? "dark" : "light");
-  };
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   const linkClasses = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 text-sm font-medium transition-colors duration-200 ${
       isActive
-        ? "text-indigo-600 dark:text-indigo-400"
-        : "text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+        ? "text-accent dark:text-accent"
+        : "text-gray-700 dark:text-gray-300 hover:text-accent dark:hover:text-accent/40"
     }`;
 
   const handleProfileClick = () => navigate("/profile");
@@ -90,7 +76,7 @@ const Navbar = () => {
 
                 <button
                   onClick={handleLogout}
-                  className="px-3 py-1 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-400 transition"
+                  className="px-3 py-1 rounded-md bg-accent text-white font-medium hover:bg-accent/50 dark:bg-accent/80 dark:hover:bg-accent/40 transition"
                 >
                   Log out
                 </button>

@@ -38,7 +38,7 @@ const PostDetail = () => {
     <main className="max-w-3xl mx-auto p-6">
       <Link
         to="/"
-        className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 mb-4 inline-block"
+        className="text-accent dark:text-accent/00 hover:text-acent/80 dark:hover:text-accent/40 mb-4 inline-block"
       >
         ← Back to Home
       </Link>

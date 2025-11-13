@@ -1,6 +1,8 @@
 import { isRouteErrorResponse, useRouteError, Link } from "react-router-dom";
+import { useTheme } from "@/hooks/useTheme";
 
 const ErrorPage = () => {
+  useTheme();
   const error = useRouteError();
   console.error(error);
 
@@ -31,7 +33,7 @@ const ErrorPage = () => {
 
         <Link
           to="/"
-          className="inline-block bg-indigo-600 text-white px-5 py-2 rounded-md font-medium hover:bg-indigo-700 dark:hover:bg-indigo-500 transition"
+          className="inline-block bg-accent/80 text-white px-5 py-2 rounded-md font-medium hover:bg-accent/80 dark:hover:bg-accent/50 transition"
         >
           Go back home
         </Link>

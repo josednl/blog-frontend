@@ -29,6 +29,13 @@ const Login = () => {
 
   return (
     <main className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      {loading && (
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center z-10">
+          <div className="w-10 h-10 border-4 border-white/30 border-t-accent rounded-full animate-spin mb-3"></div>
+          <p className="text-white text-sm font-medium">Signing in...</p>
+        </div>
+      )}
+      
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-md p-8">
         <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-6">
           Sign in to your account
@@ -52,7 +59,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent/50 focus:outline-none"
             />
           </div>
 
@@ -69,14 +76,14 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-accent/50 focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-500 transition disabled:opacity-50"
+            className="w-full bg-accent/80 text-white font-medium py-2 rounded-md hover:bg-accent/80 dark:hover:bg-accent/80 transition disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
@@ -86,7 +93,7 @@ const Login = () => {
           Don’t have an account?{" "}
           <a
             href="/register"
-            className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium"
+            className="text-accent dark:text-accent/80 hover:text-accent/80 dark:hover:text-accent/50 font-medium"
           >
             Sign up
           </a>

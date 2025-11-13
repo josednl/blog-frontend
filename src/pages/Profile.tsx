@@ -127,7 +127,7 @@ export const Profile = () => {
 
       <div className="flex flex-col md:flex-row gap-8">
         <div className="w-full md:w-1/3 flex flex-col items-center">
-          <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden border-4 dark:border-indigo-400 shadow-lg bg-gray-100 dark:bg-gray-700">
+          <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden border-4 shadow-lg bg-gray-100 dark:bg-gray-700">
             <img
               src={profileImageUrl}
               alt={`${profile.name || 'User'}'s profile picture`}
@@ -148,7 +148,7 @@ export const Profile = () => {
           />
           <label
             htmlFor="upload-photo"
-            className="px-4 py-2 text-sm font-medium rounded-lg bg-indigo-500 text-white hover:bg-indigo-600 transition-colors flex items-center"
+            className="px-4 py-2 text-sm font-medium rounded-lg bg-amber-900 text-white hover:bg-accent/80 transition-colors flex items-center"
           >
             <ImageIcon className="w-4 h-4 mr-2" /> Upload New Photo
           </label>
@@ -220,7 +220,7 @@ export const Profile = () => {
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="flex items-center gap-2 px-6 py-2 bg-indigo-500 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors shadow-md disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2 bg-accent text-white rounded-lg font-medium hover:bg-accent/80 transition-colors shadow-md disabled:opacity-50"
             >
               <Save className="w-4 h-4" /> {isSaving ? 'Saving...' : 'Save Changes'}
             </button>
