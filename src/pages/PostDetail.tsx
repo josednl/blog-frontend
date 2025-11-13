@@ -15,7 +15,6 @@ const PostDetail = () => {
       setLoading(true);
       if (!id) throw new Error("Invalid post ID");
       const response = await postsAPI.getById(id);
-      console.log(response);
       setPost(response);
     } catch {
       setError("Error loading post");
