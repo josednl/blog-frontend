@@ -1,27 +1,48 @@
 import { useEffect, useState } from "react";
 import { postsAPI } from "@/services/post/postAPI";
 import type { Post } from "@/types/post";
+import { showErrorToast } from "@/utils/toasts/showErrorToast";
+
+const PAGE_SIZE = 10;
 
 const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchData = async () => {
+  const fetchData = async (pageToLoad = 1) => {
     try {
-      setLoading(true);
-      const response = await postsAPI.getAll();
-      setPosts(response);
-    } catch {
+      if (pageToLoad === 1) setLoading(true);
+      else setLoadingMore(true);
+
+      const response = await postsAPI.getPublicPaginated(pageToLoad, PAGE_SIZE);
+      if (pageToLoad === 1) {
+        setPosts(response);
+      } else {
+        setPosts((prev) => [...prev, ...response]);
+      }
+      setHasMore(response.length === PAGE_SIZE);
+    } catch (err) {
       setError("Error loading posts");
+      showErrorToast(err || "Error loading posts");
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(1);
   }, []);
+
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchData(nextPage);
+  };
 
   if (loading) return <p className="text-center mt-10 text-gray-800 dark:text-gray-200">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -96,6 +117,18 @@ const Home = () => {
           );
         })}
       </div>
+
+      {hasMore && (
+        <div className="text-center mt-10">
+          <button
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+            className="px-6 py-2 bg-indigo-600 text-white rounded-xl font-medium hover:bg-indigo-700 transition disabled:opacity-50"
+          >
+            {loadingMore ? "Loading..." : "Load more"}
+          </button>
+        </div>
+      )}
     </main>
   );
 };
