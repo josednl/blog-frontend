@@ -1,16 +1,74 @@
-# React + Vite
+# Blog Public - Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This project is the **public-facing blog website** where users can browse published posts, read articles, and leave comments.  
+It consumes the [Blog API](https://github.com/josednl/blog-backend) and displays all publicly available content.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Admins and editors use a separate dashboard ([Admin Frontend](https://github.com/josednl/blog-author-frontend)) for content management.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- View all **published** blog posts.
+- Read individual posts with formatted content.
+- Comment on posts (requires login).
+- User registration and authentication.
+- Responsive design with **dark mode**.
+- Loading states, error handling, and toast notifications.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Technologies Used
+
+- **Framework**: React + Vite
+- **Language**: TypeScript
+- **Styling**: TailwindCSS
+- **Auth**: JWT with cookies
+- **HTTP Client**: Axios
+- **Utilities**: React Router, Prettier, dotenv
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/)
+- [npm](https://docs.npmjs.com/)
+
+---
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/josednl/blog-frontend.git
+cd blog-frontend
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Create a .env file in the root directory with the following variables:
+
+```bash
+VITE_API_URL=http://localhost:3000
+```
+
+4. Start the development server:
+
+```bash
+npm run dev
+```
+
+6. Open the app:
+
+```bash
+Open http://localhost:5173
+```
