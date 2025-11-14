@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Moon, Sun, UserCircle } from "lucide-react";
 import { useAuth } from "@/services/auth/authProvider";
@@ -30,6 +30,36 @@ const Navbar = () => {
     }
   };
 
+  const renderProfileImage = () => {
+    if (!user) return null;
+
+    let imageUrl: string | null = null;
+
+    if (user.profilePicUrl) {
+      imageUrl = user.profilePicUrl.startsWith("http")
+        ? user.profilePicUrl
+        : `${import.meta.env.VITE_API_URL || ""}${user.profilePicUrl}`;
+    }
+
+    if (imageUrl) {
+      return (
+        <img
+          src={imageUrl}
+          alt={user.name}
+          className="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 object-cover"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src =
+              "https://via.placeholder.com/150?text=No+Photo";
+          }}
+        />
+      );
+    }
+
+    return (
+      <UserCircle className="w-7 h-7 text-gray-600 dark:text-gray-300 group-hover:text-indigo-500 transition" />
+    );
+  };
+
   return (
     <header className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,19 +89,7 @@ const Navbar = () => {
                   onClick={handleProfileClick}
                   className="flex items-center space-x-2 group"
                 >
-                  {user.profilePicUrl ? (
-                    <img
-                      src={`${import.meta.env.VITE_API_URL}${user.profilePicUrl}`}
-                      alt={user.name}
-                      className="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 object-cover"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src =
-                          "https://via.placeholder.com/150?text=No+Photo";
-                      }}
-                    />
-                  ) : (
-                    <UserCircle className="w-7 h-7 text-gray-600 dark:text-gray-300 group-hover:text-indigo-500 transition" />
-                  )}
+                  {renderProfileImage()}
                 </button>
 
                 <button
@@ -136,6 +154,7 @@ const Navbar = () => {
             >
               Home
             </NavLink>
+
             <NavLink
               to="/about"
               className={linkClasses}
@@ -161,8 +180,8 @@ const Navbar = () => {
                   }}
                   className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 w-full"
                 >
-                  <UserCircle className="w-5 h-5 mr-2" />
-                  Profile
+                  {renderProfileImage()}
+                  <span className="ml-2">Profile</span>
                 </button>
 
                 <button
